@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+{% load static %}
+<html lang="en">
+   <head>
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    
+   <title>
+      {% block title %}{% endblock title %}
+   </title>
+   {% include 'includes/styles.html' %}
+   
+</head>
+
+
+<body>
+   {% include 'includes/navbar.html' %}
+   {% comment %} content {% endcomment %}
+
+   {% block content %}
+
+
+   {% endblock content %}
+   <!-- ========================= FOOTER ========================= -->
+   {% include 'includes/footer.html' %}
+   <!-- ========================= FOOTER END // ========================= -->
+   {% block scripts %}{% endblock scripts %}
+
+
+   {% include 'includes/scripts.html' %}
+</body>
+</html>

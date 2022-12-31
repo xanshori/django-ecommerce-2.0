@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<main>
+	{% include "includes/breadcrumb.html" %}
+	<!--Acount Area Start -->
+	<section class="account">
+		<div class="container">
+			<div class="row">
+			{% include 'includes/alerts.html' %}
+			{% include "includes/navbarv2.html" %}
+			{% include "includes/dashboard_sidebar.html" %}
+
+			<div class="col-lg-8 col-md-12 mt-4">
+				<main class="col-lg-12">
+					<article class="card">
+						<header class="card-header">
+							<strong class="d-inline-block mr-3">Logged in as : {{request.user.username}}</strong>
+							<span>{{user.full_name}}</span>	
+						</header>
+						<div class="card-body">
+							<div class="row">
+								<div class="col-md-6">
+									<div class="card" style="text-align:center;">
+									<div class="card-body">
+										<h5 class="card-title">Total Orders</h5>
+										<h4>{{orders_count}}</h4>
+										<a href="">View Orders</a>
+									</div>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="card" style="text-align:center;">
+										<div class="card-body">
+											{% comment %} <img src="{{userprofile.profile_picture.url}}" alt="User Profile Picture" width="50" height="50" style="border-radius:50%;"> {% endcomment %}
+											<p class="mb-0">{{user.email}}</p>
+											<p>{{user.phone_number}}</p>
+											
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</article> 
+				</main>
+			</div>
+		</div>
+		</section>
+		<!--Acount Area End -->
+</main>
+
+{% endblock %}

@@ -1,0 +1,83 @@
+{% extends "socialaccount/base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Account Connections" %}{% endblock %}
+
+{% block content %}
+<section class="section-conten padding-y" style="min-height:84vh">
+
+    <!-- ============================ COMPONENT LOGIN   ================================= -->
+        <div class="card mx-auto" style="max-width: 800px; margin-top:100px;">
+          <div class="card-body">
+           <div class="">
+            <h1>{% trans "Account Connections" %}</h1>
+
+            {% if form.accounts %}
+            <p>{% blocktrans %}You can sign in to your account using any of the following third party accounts:{% endblocktrans %}</p>
+            
+            
+            <form method="post" action="{% url 'socialaccount_connections' %}">
+            {% csrf_token %}
+            
+            <fieldset>
+            {% if form.non_field_errors %}
+            <div class="form-row">
+                <div class="col form-group" id="errorMsg">{{ form.non_field_errors }}</div>
+            </div>
+            
+            {% endif %}
+            
+            {% for base_account in form.accounts %}
+            {% with base_account.get_provider_account as account %}
+            <div class="form-row">
+                <div class="col form-group">
+                    <label for="id_account_{{ base_account.id }}">
+                    <input id="id_account_{{ base_account.id }}" type="radio" class="" name="account" value="{{ base_account.id }}"/>
+                    <span class="font-weight-bold socialaccount_provider {{ base_account.provider }} {{ account.get_brand.id }}">{{account.get_brand.name}}</span>
+                    <b class="text-primary">{{ account }}</b>
+                    </label>
+                    </div>
+            </div>
+            
+            {% endwith %}
+            {% endfor %}
+            <div class="from-row">
+                <div class="col from-group">
+                    <button class="btn btn-primary mb-4" type="submit">{% trans 'Remove' %}</button>
+                </div>
+            </div>
+            
+            </fieldset>
+            
+            </form>
+            
+            <div class="form-row">
+                {% else %}
+                <p>{% trans 'You currently have no social network accounts connected to this account.' %}</p>
+                {% endif %}
+                <div class="col form-group">
+                    <h2>{% trans 'Add a 3rd Party Account' %}</h2>
+                </div>
+            </div>
+            
+            
+            <ul class="socialaccount_providers">
+            {% include "socialaccount/snippets/provider_list.html" with process="connect" %}
+            </ul>
+            
+            {% include "socialaccount/snippets/login_extra.html" %}
+           </div>
+          </div> <!-- card-body.// -->
+        </div> <!-- card .// -->
+    
+         <p class="text-center mt-4">Try Logout? <a href="{% url 'account_logout' %}">logout</a></p>
+         <br><br>
+    <!-- ============================ COMPONENT LOGIN  END.// ================================= -->
+    
+    
+    </section>
+    <!-- ========================= SECTION CONTENT END// ========================= -->
+
+
+{% endblock %}

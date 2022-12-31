@@ -1,0 +1,18 @@
+<div class="col-lg-10">
+    <!-- Dashboard-Nav  Start-->
+    <div class="dashboard-nav">
+        <ul class="list-inline">
+            <li class="list-inline-item "><a href="{% url 'accounts:dashboard' %}" 
+            class="{% if "accounts/dashboard" in request.path %}active 
+            {% elif "/accounts/password/change/" in request.path%} active 
+            {% elif "/accounts/password/set/" in request.path %}active 
+            {% elif "/accounts/email/" in request.path %}active 
+            {% endif %}">Account settings</a></li>
+            <li class="list-inline-item"><a href="deliver-info.html">Billing information</a></li>
+            <li class="list-inline-item"><a href="wishlist.html">My wishlist</a></li>
+            <li class="list-inline-item"><a href="cart.html">My cart</a></li>
+            <li class="list-inline-item"><a href="order.html">Order</a></li>
+        </ul>
+    </div>
+    <!-- Dashboard-Nav  End-->
+</div>

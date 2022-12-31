@@ -1,0 +1,26 @@
+	<!-- Breadcrumb Area Start -->
+	<section class="breadcrumb-area mt-15">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<nav aria-label="breadcrumb">
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item"><a href="{% url 'home:home' %}">Home</a></li>
+							<li class="breadcrumb-item" aria-current="page">Account</li>
+							{% if '/accounts/dashboard/' in request.path  %}
+							<li class="breadcrumb-item active" aria-current="page">Dasboard</li>
+							{% elif "/accounts/password/change/" in request.path %}
+							<li class="breadcrumb-item active" aria-current="page">Change Password</li>
+							{% elif "/accounts/password/set/" in request.path %}
+							<li class="breadcrumb-item active" aria-current="page">Set Password</li>
+							{% elif "/accounts/email/" in request.path %}
+							<li class="breadcrumb-item active" aria-current="page">Email</li>
+							{% endif %}
+						</ol>
+					</nav>
+					<h5>Account</h5>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- Breadcrumb Area End -->
