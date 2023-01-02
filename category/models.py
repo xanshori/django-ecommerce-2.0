@@ -1,16 +1,15 @@
 from django.db import models
-from accounts.models import Account
 from django.urls import reverse
-
+from django.utils.text import slugify
 # Create your models here.
 class Categories(models.Model):
     id=models.AutoField(primary_key=True)
     title=models.CharField(max_length=255)
-    url_slug=models.CharField(max_length=255)
-    thumbnail=models.FileField()
+    slug = models.SlugField()
+    thumbnail=models.FileField(upload_to="media/thumbnail")
     description=models.TextField()
     created_at=models.DateTimeField(auto_now_add=True)
-    is_active=models.IntegerField(default=1)
+    is_active=models.BooleanField(default=True)
 
     def get_absolute_url(self):
         return reverse("category_list")
@@ -18,28 +17,23 @@ class Categories(models.Model):
     def __str__(self):
         return self.title
     
-    
-
+    def save(self):
+        self.slug = slugify(self.title)
+        super(Categories,self).save()
 
 class SubCategories(models.Model):
     id=models.AutoField(primary_key=True)
     category_id=models.ForeignKey(Categories,on_delete=models.CASCADE)
     title=models.CharField(max_length=255)
-    url_slug=models.CharField(max_length=255)
-    thumbnail=models.FileField()
+    slug = models.SlugField()
+    thumbnail=models.FileField(upload_to="media/thumbnail")
     description=models.TextField()
     created_at=models.DateTimeField(auto_now_add=True)
-    is_active=models.IntegerField(default=1)
+    is_active=models.BooleanField(default=True)
 
     def get_absolute_url(self):
         return reverse("sub_category_list")
 
-class MerchantUser(models.Model):
-    auth_user_id=models.OneToOneField(Account,on_delete=models.CASCADE)
-    profile_pic=models.FileField(default="")
-    company_name=models.CharField(max_length=255)
-    gst_details=models.CharField(max_length=255)
-    address=models.TextField()
-    is_added_by_admin=models.BooleanField(default=False)
-    created_at=models.DateTimeField(auto_now_add=True)
-    objects=models.Manager()
+    def save(self):
+        self.slug = slugify(self.title)
+        super(SubCategories,self).save()

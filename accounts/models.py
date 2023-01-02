@@ -36,23 +36,30 @@ class MyAccountManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-
+USER_TYPE_CHOICES=(
+    ('Admin',"Admin"),
+    ('Staff',"Staff"),
+    ("Merchant","Merchant"),
+    ("Customer","Customer")
+    )
 class Account(AbstractBaseUser,PermissionsMixin):
     username        = models.CharField(max_length=50,unique=True)
     first_name      = models.CharField(_("first name"), max_length=50)
     last_name       = models.CharField(_("last name"), max_length=50)
     email           = models.EmailField(unique=True)
+    user_type       = models.CharField(max_length=255,choices=USER_TYPE_CHOICES,default="Customer")
     phone_number    = models.CharField(max_length=20)
     is_active       = models.BooleanField(default=True)
     is_staff        = models.BooleanField(default=False)
     is_admin        = models.BooleanField(default=False)
     is_superuser    = models.BooleanField(default=False)
+    is_suspended = models.BooleanField(default=False)
     date_joined     = models.DateTimeField(auto_now_add=True)
     last_login      = models.DateTimeField(auto_now=True)
 
     objects = MyAccountManager()
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ["username","phone_number"]
+    REQUIRED_FIELDS = ["username","phone_number","first_name","last_name"]
 
     def __str__(self):
         return self.email
@@ -62,13 +69,15 @@ class Ip(models.Model):
     ip              = models.CharField(max_length=20,blank=True,null=True)
     class Meta:
         verbose_name_plural = 'Ip'
+
+
 class Profile(models.Model):
     user            = models.OneToOneField(Account,on_delete=models.CASCADE)
     first_name      = models.CharField(_("first name"), max_length=50)
     last_name       = models.CharField(_("last name"), max_length=50)
     tanggal_lahir   = models.DateField(null=True,blank=True)
     phone_number    = models.CharField(max_length=20)
-    profile_picture = models.ImageField(blank=True,null=True,upload_to='media/profiles/',default="profiles/default.png")
+    profile_picture = models.ImageField(blank=True,null=True,upload_to='media/profiles/',default="media/profiles/default.png")
     ip              = models.ForeignKey(Ip,on_delete=models.CASCADE,blank=True,null=True)
 
     def __str__(self):
@@ -88,3 +97,32 @@ class PhysicalAddresses(models.Model):
     is_active       = models.BooleanField(default=False)
     def __str__(self):
         return f"{self.user.first_name}"
+
+
+class AdminUser(models.Model):
+    profile_pic=models.FileField(default="")
+    auth_user_id=models.OneToOneField(Account,on_delete=models.CASCADE)
+    created_at=models.DateTimeField(auto_now_add=True)
+    objects=models.Manager()
+
+class StaffUser(models.Model):
+    profile_pic=models.FileField(default="")
+    auth_user_id=models.OneToOneField(Account,on_delete=models.CASCADE)
+    created_at=models.DateTimeField(auto_now_add=True)
+    objects=models.Manager()
+
+class MerchantUser(models.Model):
+    auth_user_id=models.OneToOneField(Account,on_delete=models.CASCADE)
+    profile_pic=models.FileField(default="")
+    company_name=models.CharField(max_length=255)
+    gst_details=models.CharField(max_length=255)
+    address=models.TextField()
+    is_added_by_admin=models.BooleanField(default=False)
+    created_at=models.DateTimeField(auto_now_add=True)
+    objects=models.Manager()
+
+class CustomerUser(models.Model):
+    auth_user_id=models.OneToOneField(Account,on_delete=models.CASCADE)
+    profile_pic=models.FileField(default="")
+    created_at=models.DateTimeField(auto_now_add=True)
+    objects=models.Manager()

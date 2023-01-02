@@ -6,9 +6,17 @@
 
 {% block content %}
 <div class="container">
-	<h1>{% trans "Account Inactive" %}</h1>
-	<h1>akun telah dinonaktifkan</h1>
-	<p>{% trans "This account is inactive." %}</p>
-</div>
+    <div class="row">
+      <div class="col-md-10 col-lg-12 col-lg-5 mx-auto">
+        <div class="card border-0 shadow rounded-3 my-5">
+          <div class="card-body p-4 p-sm-5 text-center">
+            <h2>{% trans "Account Disabled" %}</h1> <br>
+			<p>{% trans "akun ini telah dinonaktifkan" %} silahkan hubungi developer untuk mengaktifkan akun anda kembali</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
 {% endblock %}
 

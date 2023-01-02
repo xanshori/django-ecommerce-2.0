@@ -4,85 +4,112 @@
 {% load account %}
 {% load socialaccount %}
 {% block title %}Register{% endblock title %}
+
 {% block content %}
-
-  <section class="section-content padding-y">
-
-    <!-- ============================ COMPONENT REGISTER   ================================= -->
-        <div class="card mx-auto" style="max-width:570px; margin-top:40px;">
-          <article class="card-body">
-            {% include 'error.html' %}
-            <header class="mb-4 text-center"><h4 class="card-title">Sign up</h4></header>
-            <form method="post" action="{% url 'account_signup' %}">
-              {% csrf_token %}
-              {% if redirect_field_value %}
-              <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-              {% endif %}
-              <a href="{% provider_login_url 'google' %}" class="btn btn-danger  btn-block mb-4"> <i class="fab fa-google"></i> &nbsp  Sign Up with Google</a>
-
-              <div class="form-row">
-                <div class="col form-group">
-                  <label for="floatingInput">First Name</label>
-                  {% render_field form.first_name type="text" class="form-control" id="floatingInput" placeholder="Enter Your First Name" %}
-                </div> <!-- form-group end.// -->
-
-                <div class="col form-group">
-                  <label for="floatingInput">Last Name</label>
-                  {% render_field form.last_name type="text" class="form-control" id="floatingInput" placeholder="Enter Your Last Name" %}
-                </div> <!-- form-group end.// -->
-                
-              </div> <!-- form-row end.// -->
+<main >
+  <!-- Account-Login -->
+  <section class="forget-password">
+      <div class="container">
+          <div class="row">
+              <div class="col-md-12">
+                  <div class="account-sign-in">
+                      <header class="mb-4 text-center"><h4 class="card-title">Sign up</h4></header>
+                      {% include 'includes/alerts.html' %}
+                      {% include 'error.html' %}
+                    
+                      <form method="post" action="{% url 'account_signup' %}">
+                        {% csrf_token %}
+                        {% if redirect_field_value %}
+                        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                        {% endif %}          
+                        <div class="form-row">
+                          <div class="col form-group">
+                            <label for="floatingInput">First Name</label>
+                            {% render_field form.first_name type="text" class="form-control" id="floatingInput" placeholder="Enter Your First Name" %}
+                          </div> <!-- form-group end.// -->
+          
+                          <div class="col form-group">
+                            <label for="floatingInput">Last Name</label>
+                            {% render_field form.last_name type="text" class="form-control" id="floatingInput" placeholder="Enter Your Last Name" %}
+                          </div> <!-- form-group end.// -->
+                          
+                        </div> <!-- form-row end.// -->
+                        
+          
+                        <div class="form-row">
+                          <div class="col form-group">
+                            <label for="floatingInput">Email address</label>
+                            {% render_field form.email type="email" class="form-control" id="floatingInput" placeholder="name@example.com" %}
+                          </div> <!-- form-group end.// -->
+            
+            
+                          <div class="col form-group">
+                            <label for="floatingInput">Username</label>
+                            {% render_field form.username type="text" class="form-control" id="floatingInput" placeholder="Enter Username" %}
+                          </div> <!-- form-group end.// -->
               
-
-              <div class="form-row">
-                <div class="col form-group">
-                  <label for="floatingInput">Email address</label>
-                  {% render_field form.email type="email" class="form-control" id="floatingInput" placeholder="name@example.com" %}
-                </div> <!-- form-group end.// -->
-  
-  
-                <div class="col form-group">
-                  <label for="floatingInput">Username</label>
-                  {% render_field form.username type="text" class="form-control" id="floatingInput" placeholder="Enter Username" %}
-                </div> <!-- form-group end.// -->
-    
+                        </div>
+                          <div class="form-col">
+                            <div class="form-group">
+                              <label for="floatingInput">Phone Number</label>
+                              {% render_field form.phone_number type="text" class="form-control" id="floatingInput" placeholder="Enter Your Phone" %}
+                            </div> <!-- form-group end.// -->
+                          </div>
+                          <div class="form-row">
+                          <div class="col form-group">
+                            <label for="myInput">Password</label>
+                            {% render_field form.password1 type="password" class="form-control" id="myInput" placeholder="Enter Your Password" %}
+                          </div> <!-- form-group end.// --> 
+          
+                          <div class="col form-group">
+                            <label for="myInput2">Password Again</label>
+                            {% render_field form.password2 type="password" class="form-control" id="myInput2" placeholder="Confirm Your Password" %}
+                          </div> <!-- form-group end.// --> 
+          
+                        </div>
+                        <div class="form-group"> 
+                          <label class="custom-control custom-checkbox"> <input type="checkbox" class="custom-control-input"  onclick="myFunction()" > <div class="custom-control-label"> Show Password </div> </label>
+                        </div> <!-- form-group end.// --> 
+                        <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-block"> Register  </button>
+                        </div> <!-- form-group// --> 
+                      </form>
+                      <div class="social-signing">
+                          <p class="text-center">or sign in with</p>
+                          <div class="social-signing-link">
+                              <a href="{% provider_login_url 'google' %}" class="ml-0">
+                                  <svg id="search" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                      viewBox="0 0 20 20">
+                                      <path id="Path_8" data-name="Path 8"
+                                          d="M4.432,144.953l-.7,2.6-2.544.054a10.017,10.017,0,0,1-.074-9.338h0l2.265.415.992,2.252a5.968,5.968,0,0,0,.056,4.018Z"
+                                          transform="translate(0 -132.867)" fill="#fbbb00" />
+                                      <path id="Path_9" data-name="Path 9"
+                                          d="M271.233,208.176a10,10,0,0,1-3.565,9.666h0l-2.853-.146-.4-2.521a5.96,5.96,0,0,0,2.564-3.043h-5.347v-3.956h9.605Z"
+                                          transform="translate(-251.408 -200.044)" fill="#518ef8" />
+                                      <path id="Path_10" data-name="Path 10"
+                                          d="M45.577,315.121h0a10,10,0,0,1-15.069-3.059l3.241-2.653a5.947,5.947,0,0,0,8.57,3.045Z"
+                                          transform="translate(-29.317 -297.323)" fill="#28b446" />
+                                      <path id="Path_11" data-name="Path 11"
+                                          d="M43.889,2.3l-3.24,2.652a5.947,5.947,0,0,0-8.767,3.114L28.625,5.4h0A10,10,0,0,1,43.889,2.3Z"
+                                          transform="translate(-27.506)" fill="#f14336" />
+                                  </svg>
+                                  Google
+                              </a>
+                              
+                          </div>
+                      </div>
+                      <div class="ask-signup text-center">
+                          <a href="#" class="mr-1" style="color:#989BA7;">Have an account?</a>
+                           <a href="{% url 'account_login' %}">Log In</a>
+                      </div>
+                  </div>
               </div>
-                <div class="form-col">
-                  <div class="form-group">
-                    <label for="floatingInput">Phone Number</label>
-                    {% render_field form.phone_number type="text" class="form-control" id="floatingInput" placeholder="Enter Your Phone" %}
-                  </div> <!-- form-group end.// -->
-                </div>
-                <div class="form-row">
-                <div class="col form-group">
-                  <label for="myInput">Password</label>
-                  {% render_field form.password1 type="password" class="form-control" id="myInput" placeholder="Enter Your Password" %}
-                </div> <!-- form-group end.// --> 
-
-                <div class="col form-group">
-                  <label for="myInput2">Password Again</label>
-                  {% render_field form.password2 type="password" class="form-control" id="myInput2" placeholder="Confirm Your Password" %}
-                </div> <!-- form-group end.// --> 
-
-              </div>
-              <div class="form-group"> 
-		            <label class="custom-control custom-checkbox"> <input type="checkbox" class="custom-control-input"  onclick="myFunction()" > <div class="custom-control-label"> Show Password </div> </label>
-		          </div> <!-- form-group end.// --> 
-              <div class="form-group">
-              <button type="submit" class="btn btn-primary btn-block"> Register  </button>
-              </div> <!-- form-group// --> 
-            </form>
-            </article><!-- card-body.// -->
-        </div> <!-- card .// -->
-        
-        <p class="text-center mt-4">Have an account? <a href="{% url 'account_login' %}">Log In</a></p>
-        <br><br>
-    <!-- ============================ COMPONENT REGISTER  END.// ================================= -->
-    
-    
-    </section>
-    <!-- ========================= SECTION CONTENT END// ========================= -->
-{% endblock content %}
+          
+          </div>
+      </div>
+  </section>
+</main>
+ {% endblock %}
 
 {% block scripts %}
 <script>
