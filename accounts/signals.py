@@ -1,8 +1,7 @@
 from django.db.models.signals import post_save
-from .models import Account,Profile
+from .models import Account,Profile,Ip
 from django.dispatch import receiver
-
-@receiver(post_save, sender=Account)
+@receiver(post_save, sender=Account,)
 def saveProfile(sender,instance,created,**kwargs):
     if created:
         user = instance

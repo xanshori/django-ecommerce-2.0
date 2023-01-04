@@ -3,7 +3,7 @@
     <ul class="list-group">
         <a {% if '/accounts/dashboard/' != request.path %}style="color: black !important; font-weight:bolder !important;" {% endif %} class="list-group-item {% if '/accounts/dashboard/' == request.path %}text-white bg-dark{% endif %}" href="{% url 'accounts:dashboard' %}"> Dashboard</a>
         <a style="color: black !important; font-weight:bolder !important;" class="list-group-item " href="#"> My orders</a>
-        <a style="color: black !important; font-weight:bolder !important;" class="list-group-item" href="#"> Edit Profile </a>
+        <a {% if '/accounts/editprofile/' != request.path %} style="color: black !important; font-weight:bolder !important;"{% endif %} class="list-group-item {% if '/accounts/editprofile/' in request.path %} text-white bg-dark {% endif %}" href="{% url 'accounts:profile' %}"> Edit Profile </a>
         <a {% if '/accounts/password/change/' != request.path and '/accounts/password/set' != request.path %}style="color: black !important; font-weight:bolder !important;" {% endif %} class="list-group-item {% if '/accounts/password/change/' in request.path %} text-white bg-dark {% elif '/accounts/password/set' in request.path %}text-white bg-dark {% endif %}" href="{% url 'account_set_password' %}">Password </a>
         <a {% if '/accounts/email/' != request.path %}style="color: black !important; font-weight:bolder !important;" {% endif %} class="list-group-item {% if '/accounts/email/' in request.path %} text-white bg-dark {% endif %}" href="{% url 'account_email' %}">Email</a>
     </ul>

@@ -20,20 +20,3 @@ class Categories(models.Model):
     def save(self):
         self.slug = slugify(self.title)
         super(Categories,self).save()
-
-class SubCategories(models.Model):
-    id=models.AutoField(primary_key=True)
-    category_id=models.ForeignKey(Categories,on_delete=models.CASCADE)
-    title=models.CharField(max_length=255)
-    slug = models.SlugField()
-    thumbnail=models.FileField(upload_to="media/thumbnail")
-    description=models.TextField()
-    created_at=models.DateTimeField(auto_now_add=True)
-    is_active=models.BooleanField(default=True)
-
-    def get_absolute_url(self):
-        return reverse("sub_category_list")
-
-    def save(self):
-        self.slug = slugify(self.title)
-        super(SubCategories,self).save()

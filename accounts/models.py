@@ -42,12 +42,14 @@ USER_TYPE_CHOICES=(
     ("Merchant","Merchant"),
     ("Customer","Customer")
     )
+
+
 class Account(AbstractBaseUser,PermissionsMixin):
     username        = models.CharField(max_length=50,unique=True)
     first_name      = models.CharField(_("first name"), max_length=50)
     last_name       = models.CharField(_("last name"), max_length=50)
     email           = models.EmailField(unique=True)
-    user_type       = models.CharField(max_length=255,choices=USER_TYPE_CHOICES,default="Customer")
+    role            = models.CharField(max_length=255,choices=USER_TYPE_CHOICES,default="Customer")
     phone_number    = models.CharField(max_length=20)
     is_active       = models.BooleanField(default=True)
     is_staff        = models.BooleanField(default=False)
@@ -65,20 +67,21 @@ class Account(AbstractBaseUser,PermissionsMixin):
         return self.email
 
 
-class Ip(models.Model):
-    ip              = models.CharField(max_length=20,blank=True,null=True)
-    class Meta:
-        verbose_name_plural = 'Ip'
 
 
+GENDER_CHOICES = (
+    ('female', 'female'),
+    ('male', 'male'),
+    ('none', 'none')
+)
 class Profile(models.Model):
     user            = models.OneToOneField(Account,on_delete=models.CASCADE)
     first_name      = models.CharField(_("first name"), max_length=50)
     last_name       = models.CharField(_("last name"), max_length=50)
     tanggal_lahir   = models.DateField(null=True,blank=True)
+    gender              = models.CharField(choices=GENDER_CHOICES,max_length=10,default="n")
     phone_number    = models.CharField(max_length=20)
     profile_picture = models.ImageField(blank=True,null=True,upload_to='media/profiles/',default="media/profiles/default.png")
-    ip              = models.ForeignKey(Ip,on_delete=models.CASCADE,blank=True,null=True)
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
@@ -86,6 +89,11 @@ class Profile(models.Model):
     def full_name(self):
         return f"{self.first_name} {self.last_name}"
 
+class Ip(models.Model):
+    profile            = models.ForeignKey(Profile,on_delete=models.CASCADE)
+    ip              = models.CharField(max_length=20,blank=True,null=True)
+    class Meta:
+        verbose_name_plural = 'Ip'
 
 class PhysicalAddresses(models.Model):
     user            = models.ForeignKey(Profile,on_delete=models.CASCADE,blank=True,null=True)
@@ -99,30 +107,30 @@ class PhysicalAddresses(models.Model):
         return f"{self.user.first_name}"
 
 
-class AdminUser(models.Model):
-    profile_pic=models.FileField(default="")
-    auth_user_id=models.OneToOneField(Account,on_delete=models.CASCADE)
-    created_at=models.DateTimeField(auto_now_add=True)
-    objects=models.Manager()
+# class AdminUser(models.Model):
+#     profile_pic=models.FileField(default="")
+#     auth_user_id=models.OneToOneField(Account,on_delete=models.CASCADE)
+#     created_at=models.DateTimeField(auto_now_add=True)
+#     objects=models.Manager()
 
-class StaffUser(models.Model):
-    profile_pic=models.FileField(default="")
-    auth_user_id=models.OneToOneField(Account,on_delete=models.CASCADE)
-    created_at=models.DateTimeField(auto_now_add=True)
-    objects=models.Manager()
+# class StaffUser(models.Model):
+#     profile_pic=models.FileField(default="")
+#     auth_user_id=models.OneToOneField(Account,on_delete=models.CASCADE)
+#     created_at=models.DateTimeField(auto_now_add=True)
+#     objects=models.Manager()
 
-class MerchantUser(models.Model):
-    auth_user_id=models.OneToOneField(Account,on_delete=models.CASCADE)
-    profile_pic=models.FileField(default="")
-    company_name=models.CharField(max_length=255)
-    gst_details=models.CharField(max_length=255)
-    address=models.TextField()
-    is_added_by_admin=models.BooleanField(default=False)
-    created_at=models.DateTimeField(auto_now_add=True)
-    objects=models.Manager()
+# class MerchantUser(models.Model):
+#     auth_user_id=models.OneToOneField(Account,on_delete=models.CASCADE)
+#     profile_pic=models.FileField(default="")
+#     company_name=models.CharField(max_length=255)
+#     gst_details=models.CharField(max_length=255)
+#     address=models.TextField()
+#     is_added_by_admin=models.BooleanField(default=False)
+#     created_at=models.DateTimeField(auto_now_add=True)
+#     objects=models.Manager()
 
-class CustomerUser(models.Model):
-    auth_user_id=models.OneToOneField(Account,on_delete=models.CASCADE)
-    profile_pic=models.FileField(default="")
-    created_at=models.DateTimeField(auto_now_add=True)
-    objects=models.Manager()
+# class CustomerUser(models.Model):
+#     auth_user_id=models.OneToOneField(Account,on_delete=models.CASCADE)
+#     profile_pic=models.FileField(default="")
+#     created_at=models.DateTimeField(auto_now_add=True)
+#     objects=models.Manager()

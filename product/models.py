@@ -1,6 +1,5 @@
 from django.db import models
-from category.models import SubCategories
-from accounts.models import MerchantUser
+from category.models import Categories
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from uuid import uuid4
@@ -8,7 +7,7 @@ from uuid import uuid4
 
 class Products(models.Model):
     id=models.UUIDField(default=uuid4,primary_key=True,unique=True,editable=False)
-    subcategories_id=models.ForeignKey(SubCategories,on_delete=models.CASCADE)
+    Categories=models.ForeignKey(Categories,on_delete=models.CASCADE)
     product_name=models.CharField(max_length=255)
     slug = models.SlugField(_("slug"))
     brand=models.CharField(max_length=255)
@@ -17,7 +16,6 @@ class Products(models.Model):
     product_description=models.TextField()
     product_long_description=models.TextField()
     created_at=models.DateTimeField(auto_now_add=True)
-    added_by_merchant=models.ForeignKey(MerchantUser,on_delete=models.CASCADE)
     in_stock_total=models.BooleanField(default=True)
     is_active=models.BooleanField(default=True)
 

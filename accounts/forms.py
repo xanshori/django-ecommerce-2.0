@@ -1,6 +1,6 @@
 from allauth.account.forms import SignupForm
 from django import forms
-
+from .models import Profile,PhysicalAddresses
 
 class CustomSignupForm(SignupForm):
     first_name = forms.CharField(max_length=30, label='First Name')
@@ -17,3 +17,48 @@ class CustomSignupForm(SignupForm):
         user.save()
         return user
 
+
+GENDER_CHOICES = (
+    ('female', 'female'),
+    ('male', 'male'),
+    ('none', 'none')
+)
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        exclude=('user','ip')
+        widgets={
+            'first_name':forms.TextInput(
+                attrs={
+                    'class':'form-control'
+                }
+            ),
+            'last_name':forms.TextInput(
+                attrs={
+                    'class':'form-control'
+                }
+            ),
+            'profile_picture':forms.FileInput(
+                attrs={
+                    'class':"form-control",
+                }
+            ),
+            
+            'gender':forms.Select(
+                choices=GENDER_CHOICES,
+                attrs={
+                    'class':'form-control'
+                }
+            ),
+            'tanggal_lahir':forms.DateInput(
+                attrs={
+                    'class': 'form-control', 
+                    'type': 'date',
+                }
+            ),
+            'phone_number':forms.TextInput(
+                attrs={
+                    'class':'form-control'
+                }
+            ),
+        }
