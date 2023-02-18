@@ -5,7 +5,8 @@ from .models import Account,Profile,Ip
 # Register your models here.
 @admin.register(Account)
 class AcountAdmin(UserAdmin):
-    list_display=['email','username','phone_number']
+    list_display=['email','id','username','phone_number']
+    list_display_links = ['email','id']
     list_filter=()
     filter_horizontal=()
     fieldsets=()

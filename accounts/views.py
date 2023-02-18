@@ -12,7 +12,6 @@ def dashboard(request):
 
 
 def profile(request):
-    print(request.user.user_type)
     profile = Profile.objects.get(user=request.user)
     if request.method =="POST":
         ipaddr=request.META['REMOTE_ADDR']

@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from uuid import uuid4
 from django.contrib.auth.models import BaseUserManager,AbstractBaseUser,PermissionsMixin
 # Create your models here.
 
@@ -39,18 +40,18 @@ class MyAccountManager(BaseUserManager):
 USER_TYPE_CHOICES=(
     ('Admin',"Admin"),
     ('Staff',"Staff"),
-    ("Merchant","Merchant"),
     ("Customer","Customer")
     )
 
 
 class Account(AbstractBaseUser,PermissionsMixin):
+    id              = models.UUIDField(default=uuid4,primary_key=True,unique=True)
     username        = models.CharField(max_length=50,unique=True)
     first_name      = models.CharField(_("first name"), max_length=50)
     last_name       = models.CharField(_("last name"), max_length=50)
     email           = models.EmailField(unique=True)
     role            = models.CharField(max_length=255,choices=USER_TYPE_CHOICES,default="Customer")
-    phone_number    = models.CharField(max_length=20)
+    phone_number    = models.CharField(max_length=20,null=True,blank=True)
     is_active       = models.BooleanField(default=True)
     is_staff        = models.BooleanField(default=False)
     is_admin        = models.BooleanField(default=False)
@@ -63,11 +64,6 @@ class Account(AbstractBaseUser,PermissionsMixin):
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["username","phone_number","first_name","last_name"]
 
-    def __str__(self):
-        return self.email
-
-
-
 
 GENDER_CHOICES = (
     ('female', 'female'),
@@ -79,8 +75,8 @@ class Profile(models.Model):
     first_name      = models.CharField(_("first name"), max_length=50)
     last_name       = models.CharField(_("last name"), max_length=50)
     tanggal_lahir   = models.DateField(null=True,blank=True)
-    gender              = models.CharField(choices=GENDER_CHOICES,max_length=10,default="n")
-    phone_number    = models.CharField(max_length=20)
+    gender              = models.CharField(choices=GENDER_CHOICES,max_length=10,default="none")
+    phone_number    = models.CharField(max_length=20,null=True,blank=True)
     profile_picture = models.ImageField(blank=True,null=True,upload_to='media/profiles/',default="media/profiles/default.png")
 
     def __str__(self):
